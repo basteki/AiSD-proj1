@@ -17,18 +17,20 @@ import javax.swing.JFrame;
  */
 public class ProjektI extends JComponent{
     
-    static int n = 10;/* liczba punktów do wygenerowania*/
-    static int MaxX = 900;      /*Maksymalna wartość osi x*/
-    static int MaxY = 900;      /*Maksymalna wartość osi y*/
+    static int n = 4;/* liczba punktów do wygenerowania*/
+    static int MaxX = 300;      /*Maksymalna wartość osi x*/
+    static int MaxY = 300;      /*Maksymalna wartość osi y*/
     /**
      * @param g
      */
+    @Override
     public void paint(Graphics g) {
         
         int i, j, k;
+       
         int[] Xs = new int[n];
         int[] Ys = new int[n];
-         
+        int z = 0;
         PGenerator gen = new PGenerator();
         /*
         Xs[0]= 9;        Xs[1]= 8;        Xs[2]= 7;        Xs[3]= 6;    Xs[4]= 6;
@@ -45,7 +47,7 @@ public class ProjektI extends JComponent{
         int[] x = ord.OrderX(Xs, Ys);
         int[] y = ord.OrdY(Ys);
         
-        g.drawOval(x[0]-15, y[0]-15, 30, 30);
+        g.drawOval(x[0]-10, y[0]-10, 20, 20);
         
         int Xp, Yp,  Dx, Dy, Xtmp, Ytmp;
         int Xz = x[1]; //just for init
@@ -53,6 +55,48 @@ public class ProjektI extends JComponent{
         
         for(i = 0; i<n ; i++){
             g.drawOval(x[i]-5, y[i]-5, 10, 10);
+        }
+        
+        OrderPoint jar = new OrderPoint();
+        
+        int idx  = 0;
+        int p = idx;
+        Xp=0;
+        Yp=y[0];
+        
+        System.out.print("idx=");
+        System.out.println(idx);
+            
+            
+        z = jar.Jarvis(x, y, Xp, Yp, idx, n);
+        
+        g.drawLine(x[p], y[p], x[z], y[z]);
+        
+        Xp=x[p];
+        Yp=y[p];
+        
+        idx = z;
+        
+        int l =n;
+        
+        while(z!=0 && l>0){
+            
+            p = idx;
+            
+            System.out.print("idx=");
+            System.out.println(idx);
+            
+            
+            z = jar.Jarvis(x, y, Xp, Yp, idx, n);
+        
+            g.drawLine(x[idx], y[idx], x[z], y[z]);
+        
+            Xp=x[p];
+            Yp=y[p];
+        
+            idx = z;
+            p = idx;
+            l--;
         }
         /*
         //Rysowanie otoczki
@@ -105,7 +149,7 @@ public class ProjektI extends JComponent{
             //g.drawPolygon (x, y, x.length);  
         }
         //g.drawLine(x[n-1], y[n-1], x[0], y[0]);
-        */
+       */
   }
     
     
