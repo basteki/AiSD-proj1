@@ -5,8 +5,8 @@
  */
 package projekti;
 
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+//import java.io.FileNotFoundException;
+//import java.io.PrintWriter;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
@@ -17,7 +17,10 @@ import javax.swing.JFrame;
  */
 public class ProjektI extends JComponent{
     
-    static int n = 4;/* liczba punktów do wygenerowania*/
+    
+    
+    
+    static int n =6;/* liczba punktów do wygenerowania*/
     static int MaxX = 300;      /*Maksymalna wartość osi x*/
     static int MaxY = 300;      /*Maksymalna wartość osi y*/
     /**
@@ -28,40 +31,89 @@ public class ProjektI extends JComponent{
         
         int i, j, k;
        
-        int[] Xs = new int[n];
-        int[] Ys = new int[n];
+        int[] X = new int[n];
+        int[] Y = new int[n];
         int z = 0;
         PGenerator gen = new PGenerator();
         /*
-        Xs[0]= 9;        Xs[1]= 8;        Xs[2]= 7;        Xs[3]= 6;    Xs[4]= 6;
-        Xs[5]= 5;        Xs[6]= 4;        Xs[7]= 3;        Xs[8]= 2;    Xs[9]= 1;
+        X[0]=10;
+        Y[0]=10;  
+                
+        X[1]=50;
+        Y[1]=80;  
+                
+        X[2]=20;
+        Y[2]=90;
         
-        Ys[0]= 9;        Ys[1]= 8;        Ys[2]= 7;        Ys[3]= 6;    Ys[4]= 6;
-        Ys[5]= 5;        Ys[6]= 4;        Ys[7]= 3;        Ys[8]= 2;    Ys[9]= 1;
         */
         
-        Xs= gen.Generate(n, MaxX);
-        Ys= gen.Generate(n, MaxY);
+        /*
+        X[0]=40;
+        Y[0]=40;  
+                
+        X[1]=60;
+        Y[1]=100;  
+                
+        X[2]=80;
+        Y[2]=40;
+        
+        X[3]=40;
+        Y[3]=120;
+        
+        X[4]=140;
+        Y[4]=140; 
+        
+        X[5]=160;
+        Y[5]=140; 
+        */
+        //X[0]= 90;        X[1]= 110;        X[2]= 70;        X[3]= 60;    X[4]= 60;
+       // X[5]= 50;        X[6]= 40;        X[7]= 30;        X[8]= 20;    X[9]= 10;
+        
+       // Y[0]= 20;        Y[1]= 110;        Y[2]= 70;        Y[3]= 60;    Y[4]= 60;
+       // Y[5]= 50;        Y[6]= 140;        Y[7]= 30;        Y[8]= 20;    Y[9]= 10;
+        
+       
+        X= gen.Generate(n, MaxX);
+        Y= gen.Generate(n, MaxY);
+        
+        for(i =0; i<n; i++){
+            System.out.print("X=");
+            System.out.print(X[i]);
+            System.out.print("    Y=");
+            System.out.println(Y[i]);
+            
+        }
+        System.out.println("");
         
         OrderPoint ord = new OrderPoint();
-        int[] x = ord.OrderX(Xs, Ys);
-        int[] y = ord.OrdY(Ys);
+        int[] x = ord.OrdX(X, Y);
+        int[] y = ord.OrdY(Y);
+        
+        for(i =0; i<n; i++){
+            System.out.print("x=");
+            System.out.print(x[i]);
+            System.out.print("   y=");
+            System.out.println(y[i]);
+        }
+        
+        System.out.println("");
         
         g.drawOval(x[0]-10, y[0]-10, 20, 20);
         
-        int Xp, Yp,  Dx, Dy, Xtmp, Ytmp;
+        int Xp, Yp, Xs, Ys, Dx, Dy, Xtmp, Ytmp;
         int Xz = x[1]; //just for init
         int Yz = y[1];//just for init
         
         for(i = 0; i<n ; i++){
             g.drawOval(x[i]-5, y[i]-5, 10, 10);
-        }
-        
+        } 
+            
+          
         OrderPoint jar = new OrderPoint();
         
         int idx  = 0;
         int p = idx;
-        Xp=0;
+        Xp=x[0] - 10;
         Yp=y[0];
         
         System.out.print("idx=");
@@ -154,11 +206,9 @@ public class ProjektI extends JComponent{
     
     
     
-    public static void main(String[] args) {
-                      
-        int i;
-                     
-         
+    public static void main(String[] args) {            
+               
+                  
          JFrame window = new JFrame();
          window.setBounds(30, 30, MaxX+100, MaxY+100);
          window.getContentPane().add(new ProjektI());

@@ -10,7 +10,8 @@ package projekti;
  * @author BASTEKI
  */
 public class OrderPoint{
-    public int[] OrderX(int[] x, int[] y){
+    
+    public int[] OrdX(int[] x, int[] y){
        
         int i;
         int tmp;
@@ -51,26 +52,34 @@ public class OrderPoint{
     public int Jarvis(int[] x, int[] y, int Xp, int Yp, int idx, int n){
         
         int k;
-            
-           
+       
+        //System.out.print("Xs=");
+        //System.out.println(x[idx]); 
+        
+        //System.out.print("Ys=");
+        //System.out.println(y[idx]);
         
         double FI = 0;   
+        int s = idx;
+        
         for(k = 0; k<n; k++){            
             
             
-                int Xtmp=x[k];
-                int Ytmp=y[k];
+                //int Xtmp=x[k];
+                //int Ytmp=y[k];
                
-                double A = Math.sqrt((x[idx]-Xp)*(x[idx]-Xp)+(y[idx]-Yp)*(y[idx]-Yp));
-                double B = Math.sqrt((Xtmp-x[idx])*(Xtmp-x[idx])+(Ytmp-y[idx])*(Ytmp-y[idx])) ;
-                double C = Math.sqrt((Xtmp-Xp)*(Xtmp-Xp)+(Ytmp-Yp)*(Ytmp-Yp)) ;
+                double A = Math.sqrt(  ((x[s]-Xp)*(x[s]-Xp))  +  ((y[s]-Yp)*(y[s]-Yp))  );
+                double B = Math.sqrt(  ((x[k]-x[s])*(x[k]-x[s]))  +  ((y[k]-y[s])*(y[k]-y[s]))  ) ;
+                double C = Math.sqrt(  ((x[k]-Xp)*(x[k]-Xp))  +  ((y[k]-Yp)*(y[k]-Yp))  ) ;
             
-                double Angle = Math.acos(((C*C)-(A*A)-(B*B))/(-2*A*B)); 
+                double par = (  ((C*C)-(A*A)-(B*B))  /  (-2*A*B) );
                 
+                double Angle = Math.acos(par); 
+              
                 System.out.print("angle=");
                 System.out.println(Angle);
                 
-                if(Angle>FI){
+                if(Angle>=FI){
                     idx = k;
                     FI = Angle;
                      
@@ -79,6 +88,17 @@ public class OrderPoint{
         System.out.print("FI=");
         System.out.println(FI);  
         
+        //System.out.print("Xp=");
+        //System.out.println(Xp); 
+        
+        //System.out.print("Yp=");
+        //System.out.println(Yp);
+        
+        //System.out.print("Xs=");
+        //System.out.println(x[idx]);
+        
+        //System.out.print("Ys=");
+        //System.out.println(y[idx]);
         return idx;
     }
 }
