@@ -18,13 +18,20 @@ public class MonteCarlo {
         int i;
         int count=0;
     
-    for(i = 0;i<lines.length-1 ; i++){
-    if(linesIntersect(x[lines[i]], y[lines[i]], x[lines[i+1]], y[lines[i+1]], Xpoint, Ypoint, 0.0, Ypoint)==true)
-        count++;
+        for(i = 0;i<lines.length-1 ; i++){
+            /*Sprawdzanie czy linie się przecinają*/
+            if(linesIntersect(x[lines[i]], y[lines[i]], x[lines[i+1]], y[lines[i+1]], Xpoint, Ypoint, 0.0, Ypoint)==true){
+                /* Dodatkowy warunek ważny dla poprawności ~~ funkcja linesIntersect nie uwzględnia przypadku przechodzenia przez punkt końcowy odcinka*/
+                if((Ypoint==y[lines[i]]||Ypoint==y[lines[i]] )&& Xpoint>x[lines[i]])
+                    count++;
+        
+        
+        
+                count++;
+            }
     
-    
-    }
-    return count;
+        }
+        return count;
     }
     
     public static boolean linesIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4){
@@ -41,6 +48,8 @@ public class MonteCarlo {
       double cx = x1-x3;
       double cy = y1-y3;
 
+      /*Sprawdzanie niewspółliniowości odcinków*/
+      
       double alphaNumerator = by*cx - bx*cy;
       double commonDenominator = ay*bx - ax*by;
       if (commonDenominator > 0){
@@ -62,6 +71,7 @@ public class MonteCarlo {
             return false;
          }
       }
+      /* Sprawdzanie czy odcinki się krzyżują*/
       if (commonDenominator == 0){
          double y3LessY1 = y3-y1;
          double collinearityTestForP3 = x1*(y2-y3) + x2*(y3LessY1) + x3*(y1-y2);   

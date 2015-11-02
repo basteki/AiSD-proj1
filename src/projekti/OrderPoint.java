@@ -49,15 +49,17 @@ public class OrderPoint{
         return y;
     }
     
-    public int Jarvis(int[] x, int[] y, int Xp, int Yp, int idx, int n){
+    public int Jarvis(int[] x, int[] y, int Xp, int Yp, int idx, int n, int mode){
         
         int k;
        
-        //System.out.print("Xs=");
-        //System.out.println(x[idx]); 
+        if(mode == 3 ){
+        System.out.print("Xs=");
+        System.out.println(x[idx]); 
         
-        //System.out.print("Ys=");
-        //System.out.println(y[idx]);
+        System.out.print("Ys=");
+        System.out.println(y[idx]);
+        } 
         
         double FI = 0;   
         int s = idx;
@@ -71,17 +73,21 @@ public class OrderPoint{
                 double par = (  ((C*C)-(A*A)-(B*B))  /  (-2*A*B) );
                 
                 double Angle = Math.acos(par); 
-                /*
+                
+                if(mode == 3 ){
                 System.out.print("angle=");
                 System.out.println(Angle);
-                */
+                }
+                
                 if(Angle>=FI){
                     idx = k;
                     FI = Angle;
                      
                 }              
         }
-        /*
+        
+        
+        if(mode == 3 ){
         System.out.print("FI=");
         System.out.println(FI);  
         
@@ -96,7 +102,9 @@ public class OrderPoint{
         
         System.out.print("Ys=");
         System.out.println(y[idx]);
-        */
+        }
+        
+        
         return idx;
     }
 }

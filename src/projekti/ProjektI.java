@@ -18,26 +18,35 @@ import javax.swing.JFrame;
  */
 public class ProjektI extends JComponent{
     
-    
-    static int n = 6;/* liczba punktów do wygenerowania*/
-    static int m = 1000;/* liczba punktów do obliczania pola*/
-    static int MaxX = 800;      /*Maksymalna wartość osi x*/
-    static int MaxY = 800;      /*Maksymalna wartość osi y*/
+    static int mode = 2; /* 1 dla punktów z pliku, 2 dla losowej generacji, 3 dla generacji z pliku + wypisywanie paramaetrów w trakcie dzialania programu*/
+    static int n = 15;/* liczba punktów do wygenerowania*/
+    static int m = 5000;/* liczba punktów do obliczania pola*/
+    static int MaxX = 400;      /*Maksymalna wartość osi x*/
+    static int MaxY = 400;      /*Maksymalna wartość osi y*/
     /**
      * @param g
      */
     @Override
     public void paint(Graphics g) {
         
+        
+        
         int i, j, k;
        
         int[] X = new int[n];
         int[] Y = new int[n];
         int z = 0;
+        
+        
         PGenerator gen = new PGenerator();
-         
+        
+        
+        if(mode == 2 || mode ==3 ){ 
         X= gen.Generate(n, MaxX);
         Y= gen.Generate(n, MaxY);
+        
+        
+        }
         
         /*do metody montecarlo*/
         int[] Xm = new int[n];
@@ -47,10 +56,12 @@ public class ProjektI extends JComponent{
         int countIn = 0;
         int countOut = 0;
         
+       
         Xm= gen.Generate(m, MaxX);
         Ym= gen.Generate(m, MaxY);
         
-        /*
+        
+        if(mode == 3 ){
         for(i =0; i<n; i++){
             System.out.print("X=");
             System.out.print(X[i]);
@@ -58,12 +69,13 @@ public class ProjektI extends JComponent{
             System.out.println(Y[i]);
         }
         System.out.println("");
-        */
+        }
         
         OrderPoint ord = new OrderPoint();
         int[] x = ord.OrdX(X, Y);
         int[] y = ord.OrdY(Y);
-        /*
+        
+        if(mode == 3 ){
         for(i =0; i<n; i++){
             System.out.print("x=");
             System.out.print(x[i]);
@@ -71,7 +83,7 @@ public class ProjektI extends JComponent{
             System.out.println(y[i]);
         }
         System.out.println("");
-        */
+        }
         
         g.drawOval(x[0]-10, y[0]-10, 20, 20);
         
@@ -90,12 +102,14 @@ public class ProjektI extends JComponent{
         int p = idx;
         Xp=x[0] - 10;
         Yp=y[0];
-        /*
+        
+        
+        if(mode == 2 ){
         System.out.print("idx=");
         System.out.println(idx);
-        */   
+        }   
             
-        z = jar.Jarvis(x, y, Xp, Yp, idx, n);
+        z = jar.Jarvis(x, y, Xp, Yp, idx, n, mode);
         
         g.drawLine(x[p], y[p], x[z], y[z]);
         lines[0] = p;
@@ -111,11 +125,12 @@ public class ProjektI extends JComponent{
             
             p = idx;
             
-            //System.out.print("idx=");
-            //System.out.println(idx);
+            if(mode == 3 ){
+            System.out.print("idx=");
+            System.out.println(idx);
+            }
             
-            
-            z = jar.Jarvis(x, y, Xp, Yp, idx, n);
+            z = jar.Jarvis(x, y, Xp, Yp, idx, n, mode);
         
             g.drawLine(x[idx], y[idx], x[z], y[z]);
             
@@ -141,26 +156,42 @@ public class ProjektI extends JComponent{
                 g.setColor(Color.BLACK);
                 countOut++;
             }
-            else{
+            else if(monte.Intersect(x, y, lines, Xm[i], Ym[i])==1){
                 g.setColor(Color.GREEN);
                 g.drawOval(Xm[i]-2, Ym[i]-2, 4, 4);
                 g.setColor(Color.BLACK);  
                 countIn++;
             }
-                
-                
+            
+            
         }
-        /*
-        double field = ((countIn/countOut)*MaxX*MaxY);
+        if(mode == 3 ){    
+            System.out.print("In=");
+            System.out.println(countIn);
+            
+            System.out.print("Out=");
+            System.out.println(countOut);
+        }
         
+        if(mode == 3 ){
         System.out.print("IN=  ");
         System.out.println(countIn);
         System.out.print("OUT=  ");
         System.out.println(countOut);
+        }
+        
+        double IN = countIn;
+        double MAXX = MaxX;
+        double MAXY = MaxY;
+        double M = m;
+        
+        
+        double field = ((IN/M)*MAXX*MAXY);
+        
         System.out.print("Pole ~=  ");
-        System.out.print(field);
+        System.out.format("%.6f", field);
         System.out.println("j^2");
-        */
+        
         
   }
     
