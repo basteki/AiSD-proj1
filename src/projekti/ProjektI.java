@@ -5,10 +5,14 @@
  */
 package projekti;
 
-//import java.io.FileNotFoundException;
-//import java.io.PrintWriter;
+
+import java.io.File;
+import java.util.Scanner;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,9 +22,9 @@ import javax.swing.JFrame;
  */
 public class ProjektI extends JComponent{
     
-    static int mode = 2; /* 1 dla punktów z pliku, 2 dla losowej generacji, 3 dla generacji z pliku + wypisywanie paramaetrów w trakcie dzialania programu*/
-    static int n = 15;/* liczba punktów do wygenerowania*/
-    static int m = 5000;/* liczba punktów do obliczania pola*/
+    static int mode = 1; /* 1 dla punktów z pliku, 2 dla losowej generacji, 3 dla generacji z pliku + wypisywanie paramaetrów w trakcie dzialania programu*/
+    int n = 4;/* liczba punktów do wygenerowania*/
+    static int m = 2330;/* liczba punktów do obliczania pola*/
     static int MaxX = 400;      /*Maksymalna wartość osi x*/
     static int MaxY = 400;      /*Maksymalna wartość osi y*/
     /**
@@ -33,17 +37,58 @@ public class ProjektI extends JComponent{
         
         int i, j, k;
        
-        int[] X = new int[n];
-        int[] Y = new int[n];
+        
+        
         int z = 0;
+        int w = 0;
         
-        
+     
         PGenerator gen = new PGenerator();
         
+        Scanner scanner;
         
-        if(mode == 2 || mode ==3 ){ 
-        X= gen.Generate(n, MaxX);
-        Y= gen.Generate(n, MaxY);
+        int[] X2 = new int[100];
+        int[] Y2 = new int[100];
+        
+        if(mode == 1 || mode == 3){
+        
+        try {
+            scanner = new Scanner(new File("test.txt"));
+            
+            i = 0;
+            n=0;
+            while(scanner.hasNextInt()){
+                if(w == 0){
+                    X2[i] = scanner.nextInt();
+                    w++;
+                }
+                else if(w ==1){
+                    
+                    Y2[i] = scanner.nextInt();
+                    w--;
+                    i++;
+                    n++;
+                }
+                              
+            }
+                        
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ProjektI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+                      
+        }
+    
+        int[] X = new int[n]; 
+        int[] Y = new int[n]; 
+        
+            for(i=0; i<n ; i++){
+                X[i] = X2[i];
+                Y[i]= Y2[i];
+            }
+            
+        if(mode == 2){ 
+        X = gen.Generate(n, MaxX);
+        Y = gen.Generate(n, MaxY);
         
         
         }
@@ -51,7 +96,7 @@ public class ProjektI extends JComponent{
         /*do metody montecarlo*/
         int[] Xm = new int[n];
         int[] Ym = new int[n];
-        int[] lines = new int[n];
+        int[] lines = new int[n+2];
         
         int countIn = 0;
         int countOut = 0;
@@ -133,10 +178,10 @@ public class ProjektI extends JComponent{
             z = jar.Jarvis(x, y, Xp, Yp, idx, n, mode);
         
             g.drawLine(x[idx], y[idx], x[z], y[z]);
-            
+                       
             lines[l]=p;
-            lines[l+1]=z;
             
+                lines[l+1]=z;
             Xp=x[p];
             Yp=y[p];
         
@@ -189,7 +234,7 @@ public class ProjektI extends JComponent{
         double field = ((IN/M)*MAXX*MAXY);
         
         System.out.print("Pole ~=  ");
-        System.out.format("%.6f", field);
+        System.out.format("%.2f", field);
         System.out.println("j^2");
         
         
